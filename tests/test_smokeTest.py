@@ -10,7 +10,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-class TestSmokeTest():
+class TestTestsmokeTest2():
   def setup_method(self, method):
     self.driver = webdriver.Chrome()
     self.vars = {}
@@ -21,20 +21,18 @@ class TestSmokeTest():
   def test_admin(self):
     self.driver.get("https://carsonpenn.github.io/cse270-teton/admin.html")
     self.driver.set_window_size(1154, 1048)
+    elements = self.driver.find_elements(By.ID, "username")
+    assert len(elements) > 0
     self.driver.find_element(By.ID, "username").click()
     self.driver.find_element(By.ID, "username").send_keys("incorrectUsername")
     self.driver.find_element(By.ID, "password").click()
+    elements = self.driver.find_elements(By.ID, "password")
+    assert len(elements) > 0
     self.driver.find_element(By.ID, "password").send_keys("incorrectPassowrd")
     self.driver.find_element(By.ID, "username").click()
     self.driver.find_element(By.ID, "username").click()
-    elements = self.driver.find_elements(By.ID, "username")
-    assert len(elements) > 0
-    self.driver.find_element(By.ID, "password").click()
-    elements = self.driver.find_elements(By.ID, "password")
-    assert len(elements) > 0
-    WebDriverWait(self.driver, 30).until(expected_conditions.text_to_be_present_in_element((By.CSS_SELECTOR, ".admin-main"), "Enter Credentials\\nUsername:\\nPassword:"))
-    WebDriverWait(self.driver, 30).until(expected_conditions.text_to_be_present_in_element((By.CSS_SELECTOR, ".admin-main"), "Enter Credentials\\nUsername:\\nPassword:"))
     self.driver.find_element(By.CSS_SELECTOR, ".mysubmit:nth-child(4)").click()
+    WebDriverWait(self.driver, 30).until(expected_conditions.text_to_be_present_in_element((By.CSS_SELECTOR, ".errorMessage"), "Invalid username and password."))
   
   def test_directory(self):
     self.driver.get("https://carsonpenn.github.io/cse270-teton/directory.html")
